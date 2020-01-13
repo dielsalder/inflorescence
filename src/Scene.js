@@ -40,24 +40,16 @@ class Scene extends Component{
     scene.background = new THREE.Color('black');
 
     let camera = new THREE.PerspectiveCamera(60, this.width/this.height, 0.25, 1000);
+    // let camera = new THREE.OrthographicCamera( 
+    //   this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 1, 1000 );
     scene.add(camera);
 
     let sphere = new THREE.SphereGeometry(50, 300, 300);
-    let material = new THREE.MeshPhongMaterial({
-      map: new THREE.TextureLoader().load('/Assets/2_no_clouds_4k.jpg'),
-      bumpMap: new THREE.TextureLoader().load('/Assets/elev_bump_4k.jpg'),  
-      bumpScale: 0.005,
-      specularMap: THREE.ImageUtils.loadTexture('/Assets/water_4k.png'),
-      specular: new THREE.Color('grey'),
-    }); 
-    let mesh = new THREE.Mesh(sphere, material);
+    let material = new THREE.MeshBasicMaterial({color:"white"}); 
+
+    let mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), material);
     scene.add(mesh);
     sphere = new THREE.SphereGeometry(50.1, 300, 300)
-    material = new THREE.MeshPhongMaterial({
-      map: new THREE.TextureLoader().load('/Assets/fair_clouds_4k.png'),
-      transparent: true
-    })
-    mesh = new THREE.Mesh(sphere, material);
     scene.add(mesh)
     this.renderer = renderer;
     this.scene = scene;
@@ -102,7 +94,7 @@ class Scene extends Component{
     controls.enableKeys = false;
     controls.screenSpacePanning = false;
     controls.enableRotate = true;
-    controls.autoRotate = true;
+    controls.autoRotate = false;
     controls.dampingFactor = 1;
     controls.autoRotateSpeed = 1.2;
     controls.enablePan = false;
