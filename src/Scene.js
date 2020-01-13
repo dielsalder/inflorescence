@@ -25,8 +25,21 @@ class Scene extends Component{
     this.setupScene();
   }
 
-  petalGeometry(){
+  petalGeometry(xOrigin, yOrigin, petalLength, width1, width2){
+    // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
+    let yCp1 = width1;
+    let yCp2 = width2;
+    // lies along x Axis
+    let xCp1 = 0;
+    let xCp2 = petalLength;
 
+    // curve along x axis from (xOrigin, yOrigin) to (xOrigin, petalLength)
+    var petalShape = new THREE.Shape();
+    petalShape.bezierCurveTo( xOrigin + xCp1, yOrigin + yCp1, xOrigin + xCp2, yOrigin+yCp2, petalLength, yOrigin );
+    petalShape.bezierCurveTo( xOrigin + xCp2, yOrigin - yCp2, xOrigin + xCp1, yOrigin-yCp1, xOrigin, yOrigin);
+
+    var geometry = new THREE.ShapeGeometry( petalShape );
+    return geometry;
   }
   setupScene(){
     this.width = this.container.clientWidth;
@@ -57,28 +70,18 @@ class Scene extends Component{
     });
     let material = wireMaterial;
 
+    let numPetals = 6;
+    let flowerGeometry = new THREE.Geometry();
+    for (let i = 0; i < numPetals; i++){
+      let petalGeometry = this.petalGeometry(0,0,10,1,10);
+      let rotAngle = 2*Math.PI/ numPetals;
+      petalGeometry.rotateZ(rotAngle*i);
+      flowerGeometry.merge(petalGeometry);
+    }
 
-    let boxMesh = new THREE.Mesh(new THREE.BoxGeometry(0.2,1,1), material);
-    let xOrigin = 0, yOrigin = 0;
-    let petalLength = 10;
-    let petalWidth = 5;
-    // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
-    let yCp1 = 6;
-    let yCp2 = 1;
-    // lies along x Axis
-    let xCp1 = 0;
-    let xCp2 = petalLength;
-
-    // curve along x axis from (xOrigin, yOrigin) to (xOrigin, petalLength)
-    var petalShape = new THREE.Shape();
-    petalShape.bezierCurveTo( xOrigin + xCp1, yOrigin + yCp1, xOrigin + xCp2, yOrigin+yCp2, petalLength, yOrigin );
-    petalShape.bezierCurveTo( xOrigin + xCp2, yOrigin - yCp2, xOrigin + xCp1, yOrigin-yCp1, xOrigin, yOrigin);
-
-    var geometry = new THREE.ShapeGeometry( petalShape );
+    // params for petal number and pitch
     // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var mesh = new THREE.Mesh( geometry, material ) ;
-    scene.add( mesh );
-    // sphere = new THREE.SphereGeometry(50.1, 300, 300)
+    var mesh = new THREE.Mesh( flowerGeometry, material ) ;
     scene.add(mesh)
     this.renderer = renderer;
     this.scene = scene;
