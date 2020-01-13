@@ -25,6 +25,9 @@ class Scene extends Component{
     this.setupScene();
   }
 
+  petalGeometry(){
+
+  }
   setupScene(){
     this.width = this.container.clientWidth;
     this.height = this.container.clientHeight;
@@ -54,8 +57,27 @@ class Scene extends Component{
     });
     let material = wireMaterial;
 
-    let mesh = new THREE.Mesh(new THREE.BoxGeometry(0.2,1,1), material);
-    scene.add(mesh);
+
+    let boxMesh = new THREE.Mesh(new THREE.BoxGeometry(0.2,1,1), material);
+    let xOrigin = 0, yOrigin = 0;
+    let petalLength = 10;
+    let petalWidth = 5;
+    // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
+    let yCp1 = 6;
+    let yCp2 = 1;
+    // lies along x Axis
+    let xCp1 = 0;
+    let xCp2 = petalLength;
+
+    // curve along x axis from (xOrigin, yOrigin) to (xOrigin, petalLength)
+    var petalShape = new THREE.Shape();
+    petalShape.bezierCurveTo( xOrigin + xCp1, yOrigin + yCp1, xOrigin + xCp2, yOrigin+yCp2, petalLength, yOrigin );
+    petalShape.bezierCurveTo( xOrigin + xCp2, yOrigin - yCp2, xOrigin + xCp1, yOrigin-yCp1, xOrigin, yOrigin);
+
+    var geometry = new THREE.ShapeGeometry( petalShape );
+    // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+    var mesh = new THREE.Mesh( geometry, material ) ;
+    scene.add( mesh );
     // sphere = new THREE.SphereGeometry(50.1, 300, 300)
     scene.add(mesh)
     this.renderer = renderer;
