@@ -63,7 +63,6 @@ class Scene extends Component{
     scene.add(camera);
 
 
-    let white = new THREE.MeshBasicMaterial({color:"white"}); 
     let wireMaterial = new THREE.MeshBasicMaterial({
       color: 0xff0000,
       wireframe: true
@@ -71,16 +70,21 @@ class Scene extends Component{
     let material = wireMaterial;
 
     // draw flower
+    let flowerMaterial = new THREE.MeshNormalMaterial; 
     let numPetals = 6;
-    let petalPitch = 60*Math.PI/180;
+    let petalPitch = 40*Math.PI/180;
+    let petalLength = 10;
+    let flowerHeight = petalLength*Math.sin(petalPitch);
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
-      let petalGeometry = this.petalGeometry(0,0,10,1,10);
+      let petalGeometry = this.petalGeometry(0,0,petalLength,1,4);
       petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
       flowerGeometry.merge(petalGeometry);
     }
+    var flowerMesh = new THREE.Mesh( flowerGeometry, flowerMaterial) ;
+    scene.add(flowerMesh)
 
     // draw stem
     let stemHeight = 15;
@@ -88,18 +92,19 @@ class Scene extends Component{
     let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,3);
     stemGeometry.rotateX(0.5*Math.PI);
     let stemMesh = new THREE.Mesh(stemGeometry, material);
-    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1), 2);
+    // this should be adjusted for stem height but i'll figure it out later
+    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1), Math.abs(flowerHeight));
     scene.add(stemMesh);
 
-
-    // params for petal number and pitch
-    // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    var mesh = new THREE.Mesh( flowerGeometry, material ) ;
-    scene.add(mesh)
     this.renderer = renderer;
     this.scene = scene;
     this.camera = camera;
-    this.object = mesh;
+    // set this.object to combo of all meshes - the only use of this is to get bounding box so texture doesn't matter
+    let allGeometry = new THREE.Geometry();
+    allGeometry.merge(stemGeometry);
+    allGeometry.merge(flowerHeight);
+    var allMesh = new THREE.Mesh( allGeometry, material ) ;
+    this.object = allMesh;
 
     let spotLight = new THREE.SpotLight(0xffffff, 0.25)
     spotLight.position.set(45, 50, 15);
