@@ -69,8 +69,12 @@ class Scene extends Component{
     });
     let material = wireMaterial;
 
+    // spheres/discs for stamens
     // draw flower
-    let flowerMaterial = new THREE.MeshNormalMaterial; 
+    let flowerMaterial = new THREE.MeshLambertMaterial({
+      color:"#24afff"
+    }); 
+
     let numPetals = 6;
     let petalPitch = 40*Math.PI/180;
     let petalLength = 10;
@@ -102,12 +106,12 @@ class Scene extends Component{
     // set this.object to combo of all meshes - the only use of this is to get bounding box so texture doesn't matter
     let allGeometry = new THREE.Geometry();
     allGeometry.merge(stemGeometry);
-    allGeometry.merge(flowerHeight);
+    allGeometry.merge(flowerGeometry);
     var allMesh = new THREE.Mesh( allGeometry, material ) ;
     this.object = allMesh;
 
-    let spotLight = new THREE.SpotLight(0xffffff, 0.25)
-    spotLight.position.set(45, 50, 15);
+    let spotLight = new THREE.SpotLight(0xffffff, 1)
+    spotLight.position.set(10, 20, 15);
     camera.add(spotLight);
     this.spotLight = spotLight;
 
