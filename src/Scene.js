@@ -70,14 +70,27 @@ class Scene extends Component{
     });
     let material = wireMaterial;
 
+    // draw flower
     let numPetals = 6;
+    let petalPitch = 60*Math.PI/180;
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
       let petalGeometry = this.petalGeometry(0,0,10,1,10);
+      petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
       flowerGeometry.merge(petalGeometry);
     }
+
+    // draw stem
+    let stemHeight = 15;
+    let stemRadius = 0.5;
+    let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,3);
+    stemGeometry.rotateX(0.5*Math.PI);
+    let stemMesh = new THREE.Mesh(stemGeometry, material);
+    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1), 2);
+    scene.add(stemMesh);
+
 
     // params for petal number and pitch
     // var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
