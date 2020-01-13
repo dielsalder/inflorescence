@@ -37,19 +37,26 @@ class Scene extends Component{
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     let scene = new THREE.Scene();
-    scene.background = new THREE.Color('black');
+    scene.background = new THREE.Color('white');
 
-    let camera = new THREE.PerspectiveCamera(60, this.width/this.height, 0.25, 1000);
-    // let camera = new THREE.OrthographicCamera( 
-    //   this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 1, 1000 );
+    let cameraPersp = new THREE.PerspectiveCamera(60, this.width/this.height, 0.25, 1000);
+    let cameraOrthographic = new THREE.OrthographicCamera( 
+      this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 0.25, 1000);
+
+    let camera = cameraPersp;
     scene.add(camera);
 
-    let sphere = new THREE.SphereGeometry(50, 300, 300);
-    let material = new THREE.MeshBasicMaterial({color:"white"}); 
 
-    let mesh = new THREE.Mesh(new THREE.BoxGeometry(1,1,1), material);
+    let white = new THREE.MeshBasicMaterial({color:"white"}); 
+    let wireMaterial = new THREE.MeshBasicMaterial({
+      color: 0xff0000,
+      wireframe: true
+    });
+    let material = wireMaterial;
+
+    let mesh = new THREE.Mesh(new THREE.BoxGeometry(0.2,1,1), material);
     scene.add(mesh);
-    sphere = new THREE.SphereGeometry(50.1, 300, 300)
+    // sphere = new THREE.SphereGeometry(50.1, 300, 300)
     scene.add(mesh)
     this.renderer = renderer;
     this.scene = scene;
@@ -66,6 +73,9 @@ class Scene extends Component{
     this.camera.add(ambLight);
 
     this.computeBoundingBox();
+    // console.log(this.camera.zoom, this.camera.near, this.camera.far, this.camera.left, this.camera.right, this.camera.top, this.camera.bottom);
+    // console.log(this.object.position);
+    // console.log(this.camera.getWorldDirection());
   }
 
   computeBoundingBox(){
