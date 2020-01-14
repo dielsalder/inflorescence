@@ -41,6 +41,26 @@ class Scene extends Component{
     var geometry = new THREE.ShapeGeometry( petalShape );
     return geometry;
   }
+  leafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
+    // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
+    let yCp1 = width1;
+    let yCp2 = width2;
+    // lies along x Axis
+    let xCp1 = 0;
+    let xCp2 = leafLength;
+
+    var shape1 = new THREE.Shape();
+    shape1.bezierCurveTo( xOrigin + xCp1, yOrigin + yCp1, xOrigin + xCp2, yOrigin+yCp2, leafLength, yOrigin );
+    // draw 2 halves of leaf by copying and rotating the geometry
+    var geometry1 = new THREE.ShapeGeometry( shape1 );
+    var shape2 = new THREE.Shape();
+    shape2.bezierCurveTo( xOrigin + xCp1, yOrigin - yCp1, xOrigin + xCp2, yOrigin-yCp2, leafLength, yOrigin );
+    var geometry2 = new THREE.ShapeGeometry( shape2);
+    geometry1.rotateX(leafFoldAngle);
+    geometry2.rotateX(-leafFoldAngle);
+    geometry2.merge(geometry1);
+    return geometry2;
+  }
   setupScene(){
     this.width = this.container.clientWidth;
     this.height = this.container.clientHeight;
@@ -56,9 +76,6 @@ class Scene extends Component{
     scene.background = new THREE.Color('white');
 
     let cameraPersp = new THREE.PerspectiveCamera(60, this.width/this.height, 0.25, 1000);
-    let cameraOrthographic = new THREE.OrthographicCamera( 
-      this.width / - 2, this.width / 2, this.height / 2, this.height / - 2, 0.25, 1000);
-
     let camera = cameraPersp;
     scene.add(camera);
 
@@ -105,10 +122,11 @@ class Scene extends Component{
     centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), centerHeight);
     scene.add(centerMesh);
 
+    let leafStemColor = "#96c76b";
     // draw stem
     let stemHeight = 15;
     let stemMaterial = new THREE.MeshBasicMaterial({
-      color: "#96c76b",
+      color: leafStemColor,
     })
     let stemRadius = 0.25;
     let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,3);
@@ -119,21 +137,29 @@ class Scene extends Component{
     scene.add(stemMesh);
 
     //draw leaves
-    let leafRotAngle = 60 * (Math.PI/180);
+    let leafMaterial = new THREE.MeshLambertMaterial({
+      color:leafStemColor,
+      flatshading:true
+    });
+    let leafRotAngle = 100 * (Math.PI/180);
+    let leafFoldAngle = 20 * (Math.PI/180);
     let leafLength = 10;
     let leafVertSpacing = 2;
-    let leafInner = 0;
-    let leafOuter = 3;
-    let leavesTopBound = stemHeight/2;
+    let leafInner = 5;
+    let leafOuter = -1;
+    let leafPitch = 15*(Math.PI/180);
+    // make bottom bound work? right now it starts at 0 no matter what
+    let leavesTopBound = -stemHeight*0.8;
+    let leavesBottomBound =  -stemHeight;
     let translateBy = -1000;
     // absolutely no leaves above here
     let flowersTopBound = -petalLength*Math.sin(petalPitch);
-    for (let i = 0; translateBy < flowersTopBound; i++){
-      translateBy = i*(leafVertSpacing)-stemHeight;
-      let leafGeometry = this.petalGeometry(0,0,leafLength,leafInner, leafOuter);
-      leafGeometry.rotateY(-petalPitch);
+    for (let i = 0; translateBy < leavesTopBound && translateBy < flowersTopBound; i++){
+      translateBy += (leafVertSpacing-stemHeight);
+      let leafGeometry = this.leafGeometry(0,0,leafLength,leafInner, leafOuter, leafFoldAngle);
+      leafGeometry.rotateY(-leafPitch);
       leafGeometry.rotateZ(i*leafRotAngle);
-      let leafMesh = new THREE.Mesh(leafGeometry, wireMaterial);
+      let leafMesh = new THREE.Mesh(leafGeometry, leafMaterial);
       //cut off if above flower plane
       leafMesh.translateOnAxis(new THREE.Vector3(0,0,1),translateBy);
       scene.add(leafMesh);
