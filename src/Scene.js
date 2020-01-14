@@ -77,16 +77,16 @@ class Scene extends Component{
 
   petalGeometry(xOrigin, yOrigin, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative){
     // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
+    let xCp1 = xOrigin + petalLength*petalInnerXRelative
     let yCp1 = yOrigin+ petalLength*petalInnerYRelative;
     let yCp2 = yOrigin+ petalLength*petalOuterYRelative;
     // lies along x Axis
-    let xCp1 = xOrigin;
-    let xCp2 = petalLength;
+    let xCp2 = xOrigin + petalLength*petalOuterXRelative;
 
     // curve along x axis from (xOrigin, yOrigin) to (xOrigin, petalLength)
     var petalShape = new THREE.Shape();
-    petalShape.bezierCurveTo( xOrigin + xCp1, yOrigin + yCp1, xOrigin + xCp2, yOrigin+yCp2, petalLength, yOrigin );
-    petalShape.bezierCurveTo( xOrigin + xCp2, yOrigin - yCp2, xOrigin + xCp1, yOrigin-yCp1, xOrigin, yOrigin);
+    petalShape.bezierCurveTo(xCp1,yCp1, xCp2, yCp2, petalLength, yOrigin );
+    petalShape.bezierCurveTo(xCp2, - yCp2, xCp1, -yCp1, xOrigin, yOrigin);
 
     var geometry = new THREE.ShapeGeometry( petalShape );
     return geometry;

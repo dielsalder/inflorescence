@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Scene from './Scene';
+import "./App.css";
 class App extends Component {
   constructor(props){
     super(props);
@@ -24,12 +25,34 @@ class App extends Component {
     return (
       <div>
         <div id="inputs">
-          <label>number of petals</label>
-          <input type="number" name = "numPetals" value={this.state.numPetals} onChange={this.onChange} min={0} max={24}step={1}/>
-          <label>innerY</label>
-          <input type="number" name = "petalInnerYRelative" value={this.state.petalInnerYRelative} onChange={this.onChange} min={-1} max={1}step={0.1}/>
+          <ul>
+            <li>
+              <label>number of petals</label>
+              <input type="range" name = "numPetals" value={this.state.numPetals} onChange={this.onChange} min={0} max={24}step={1}/>
+            </li>
+            <li>
+              <label>petal length</label>
+              <input type="range" name = "petalLength" value={this.state.petalLength} onChange={this.onChange} min={0} max={8}step={0.1}/>
+            </li>
+            <li>
+              <label>innerX</label>
+              <input type="range" name = "petalInnerXRelative" value={this.state.petalInnerXRelative} onChange={this.onChange} min={0} max={2}step={0.1}/>
+            </li>
+            <li>
+              <label>innerY</label>
+              <input type="range" name = "petalInnerYRelative" value={this.state.petalInnerYRelative} onChange={this.onChange} min={-2} max={2}step={0.1}/>
+            </li>
+            <li>
+              <label>outerX</label>
+              <input type="range" name = "petalOuterXRelative" value={this.state.petalOuterXRelative} onChange={this.onChange} min={0} max={2}step={0.1}/>
+            </li>
+            <li>
+              <label>outerY</label>
+              <input type="range" name = "petalOuterYRelative" value={this.state.petalOuterYRelative} onChange={this.onChange} min={-2} max={2}step={0.1}/>
+            </li>
+          </ul>
         </div>
-        <Scene {...this.state}/>
+        <Scene className="Scene" {...this.state}/>
       </div>
     );
   }
