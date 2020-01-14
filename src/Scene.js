@@ -1,22 +1,42 @@
 import React, {Component} from 'react';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
+import PropTypes from 'prop-types';
 
 class Scene extends Component{
+  static propTypes = {
+    /** number of petals */
+    numPetals: PropTypes.number,
+    /** pitch of petals in degrees */
+    petalPitch: PropTypes.number,
+    petalLength: PropTypes.number,
+    /** X coordinate of petal inner control point relative to length - between 0 and 1 */
+    petalInnerXRelative: PropTypes.number,
+    /** Y coordinate of petal inner control point relative to length - between 0 and 1 */
+    petalInnerYRelative: PropTypes.number,
+    /** X coordinate of petal outer control point relative to length - between 0 and 1 */
+    petalOuterXRelative: PropTypes.number,
+    /** Y coordinate of petal outer control point relative to length - between 0 and 1 */
+    petalOuterYRelative: PropTypes.number,
+    /** color of leaves and stems -- hex code */
+    leafStemColor: PropTypes.string,
+    /** color of flowers - hex code */
+    flowerColor: PropTypes.string,
+  }
   constructor(props){
     super(props);
     this.state={
-      numPetals: 12,
-      petalPitch:30*Math.PI/180,
-      petalLength : 6,
-      petalInner : -1,
-      petalOuter : 3,
+      numPetals: this.props.numPetals,
+      petalPitch:-30*Math.PI/180,
+      petalLength : 2,
+      petalInner : 8,
+      petalOuter : -2,
 
-      centerSides : 6,
+      centerSides : 3,
       centerBottomRadius : 0,
-      centerTopRadius : 1,
-      centerHeight : .5,
-      centerTranslateZ : 0.5,
+      centerTopRadius : 0,
+      centerHeight : 0.25,
+      centerTranslateZ : 0.25,
 
     }
     this.start = this.start.bind(this);
@@ -149,9 +169,9 @@ class Scene extends Component{
     //draw leaves
     let leafRotAngle = 120 * (Math.PI/180);
     let leafFoldAngle = 20 * (Math.PI/180);
-    let leafLength = 8;
+    let leafLength = 10;
     let leafVertSpacing = 3;
-    let leafInner = 8;
+    let leafInner = 2;
     let leafOuter = -1;
     let leafPitch = 30*(Math.PI/180);
     let leavesTopBound = -this.stemHeight*0.5;
@@ -181,7 +201,7 @@ class Scene extends Component{
     var allMesh = new THREE.Mesh( allGeometry, this.wireMaterial ) ;
     this.object = allMesh;
 
-    let spotLight = new THREE.SpotLight(0xffffff, 1)
+    let spotLight = new THREE.SpotLight(0xffffff, 0.9)
     spotLight.position.set(10, 20, 15);
     camera.add(spotLight);
     this.spotLight = spotLight;
