@@ -10,13 +10,13 @@ class Scene extends Component{
     /** pitch of petals in degrees */
     petalPitch: PropTypes.number,
     petalLength: PropTypes.number,
-    /** X coordinate of petal inner control point relative to length - between 0 and 1 */
+    /** X coordinate of petal inner control point relative to length - between -1 and 1 */
     petalInnerXRelative: PropTypes.number,
-    /** Y coordinate of petal inner control point relative to length - between 0 and 1 */
+    /** Y coordinate of petal inner control point relative to length - between -1 and 1 */
     petalInnerYRelative: PropTypes.number,
-    /** X coordinate of petal outer control point relative to length - between 0 and 1 */
+    /** X coordinate of petal outer control point relative to length - between -1 and 1 */
     petalOuterXRelative: PropTypes.number,
-    /** Y coordinate of petal outer control point relative to length - between 0 and 1 */
+    /** Y coordinate of petal outer control point relative to length - between -1 and 1 */
     petalOuterYRelative: PropTypes.number,
     /** color of leaves and stems -- hex code */
     leafStemColor: PropTypes.string,
@@ -27,10 +27,10 @@ class Scene extends Component{
     super(props);
     this.state={
       numPetals: this.props.numPetals,
-      petalPitch:-30*Math.PI/180,
-      petalLength : 2,
-      petalInner : 8,
-      petalOuter : -2,
+      petalLength : this.props.petalLength,
+      petalPitch:this.props.petalPitch*Math.PI/180,
+      petalInner : this.props.petalLength*this.props.petalInnerYRelative,
+      petalOuter : this.props.petalLength*this.props.petalOuterYRelative,
 
       centerSides : 3,
       centerBottomRadius : 0,
@@ -51,21 +51,21 @@ class Scene extends Component{
     this.stemRadius = 0.25;
     this.stemHeight = 15;
     this.flowerMaterial = new THREE.MeshLambertMaterial({
-      color:"#24afff"
+      color:this.props.flowerColor
     }); 
     this.wireMaterial = new THREE.MeshBasicMaterial({
       color: 0xff0000,
       wireframe: true
     });
     this.leafMaterial = new THREE.MeshLambertMaterial({
-      color:"#69a339",
+      color:this.props.leafStemColor,
       flatshading:true
     });
     this.centerMaterial = new THREE.MeshLambertMaterial( {
       color:"#ffe600",
       flatshading: true
     });
-    this.stemMaterial = new THREE.MeshBasicMaterial({ color: "#69a339", })
+    this.stemMaterial = new THREE.MeshBasicMaterial({ color: this.props.leafStemColor, })
     this.leafStemColor = "#69a339";
   }
 
