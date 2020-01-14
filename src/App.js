@@ -6,7 +6,9 @@ class App extends Component {
     this.state = {
       numPetals:6,
       petalLength:5,
-      petalPitch : 30,
+      petalPitch : 30*Math.PI/180,
+      petalInnerXRelative:0,
+      petalOuterXRelative:1,
       petalInnerYRelative:0.1,
       petalOuterYRelative:0.5,
       flowerColor:"#24afff",

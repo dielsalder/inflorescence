@@ -26,18 +26,11 @@ class Scene extends Component{
   constructor(props){
     super(props);
     this.state={
-      numPetals: this.props.numPetals,
-      petalLength : this.props.petalLength,
-      petalPitch:this.props.petalPitch*Math.PI/180,
-      petalInner : this.props.petalLength*this.props.petalInnerYRelative,
-      petalOuter : this.props.petalLength*this.props.petalOuterYRelative,
-
       centerSides : 3,
       centerBottomRadius : 0,
       centerTopRadius : 0,
       centerHeight : 0.25,
       centerTranslateZ : 0.25,
-
     }
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -78,17 +71,16 @@ class Scene extends Component{
   }
 
   componentDidUpdate(){
-    console.log(this.flowerMesh);
-    console.log("update");
+    console.log("redrawing...");
     this.redraw();
   }
 
-  petalGeometry(xOrigin, yOrigin, petalLength, width1, width2){
+  petalGeometry(xOrigin, yOrigin, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative){
     // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
-    let yCp1 = width1;
-    let yCp2 = width2;
+    let yCp1 = yOrigin+ petalLength*petalInnerYRelative;
+    let yCp2 = yOrigin+ petalLength*petalOuterYRelative;
     // lies along x Axis
-    let xCp1 = 0;
+    let xCp1 = xOrigin;
     let xCp2 = petalLength;
 
     // curve along x axis from (xOrigin, yOrigin) to (xOrigin, petalLength)
@@ -100,10 +92,10 @@ class Scene extends Component{
     return geometry;
   }
 
-  flowerGeometry(numPetals, petalLength, petalInner, petalOuter, petalPitch){
+  flowerGeometry(numPetals, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative, petalPitch){
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
-      let petalGeometry = this.petalGeometry(0,0,petalLength,petalInner, petalOuter);
+      let petalGeometry = this.petalGeometry(0,0,petalLength,petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative);
       petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
@@ -113,7 +105,8 @@ class Scene extends Component{
   }
 
   addFlowerMesh(){
-    let flowerGeometry = this.flowerGeometry( this.props.numPetals,this.state.petalLength,this.state.petalInner,this.state.petalOuter, this.state.petalPitch); 
+    // x values are 0 and 1 by default
+    let flowerGeometry = this.flowerGeometry( this.props.numPetals,this.props.petalLength,this.props.petalInnerXRelative, this.props.petalInnerYRelative,this.props.petalOuterXRelative,this.props.petalOuterYRelative, this.props.petalPitch); 
     this.flowerMesh = new THREE.Mesh(flowerGeometry, this.flowerMaterial) ;
     this.scene.add(this.flowerMesh)
     console.log("number of petals=" + JSON.stringify(this.props.numPetals));
