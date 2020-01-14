@@ -6,6 +6,18 @@ class Scene extends Component{
   constructor(props){
     super(props);
     this.state={
+      numPetals: 12,
+      petalPitch:30*Math.PI/180,
+      petalLength : 6,
+      petalInner : -1,
+      petalOuter : 3,
+
+      centerSides : 6,
+      centerBottomRadius : 0,
+      centerTopRadius : 1,
+      centerHeight : .5,
+      centerTranslateZ : 0.5,
+
     }
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
@@ -114,15 +126,15 @@ class Scene extends Component{
 
 
     // draw flower
-    let flowerGeometry = this.flowerGeometry( this.props.numPetals,this.props.petalLength,this.props.petalInner,this.props.petalOuter, this.props.petalPitch); 
+    let flowerGeometry = this.flowerGeometry( this.state.numPetals,this.state.petalLength,this.state.petalInner,this.state.petalOuter, this.state.petalPitch); 
     var flowerMesh = new THREE.Mesh(flowerGeometry, this.flowerMaterial) ;
     scene.add(flowerMesh)
 
     // draw stamens/disk as cylinder
-    let centerGeometry = new THREE.CylinderGeometry(this.props.centerTopRadius, this.props.centerBottomRadius, this.props.centerHeight, this.props.centerSides);
+    let centerGeometry = new THREE.CylinderGeometry(this.state.centerTopRadius, this.state.centerBottomRadius, this.state.centerHeight, this.state.centerSides);
     centerGeometry.rotateX(0.5*Math.PI);
     let centerMesh = new THREE.Mesh(centerGeometry, this.centerMaterial);
-    centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), this.props.centerTranslateZ);
+    centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), this.state.centerTranslateZ);
     scene.add(centerMesh);
 
     // let leafStemColor = "#96c76b";
