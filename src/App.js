@@ -14,17 +14,20 @@ class App extends Component {
       flowerColor:"#24afff",
       leafStemColor:"#69a339",
     }
-    this.changeNumPetals = this.changeNumPetals.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
-  changeNumPetals(event){
-    this.setState({numPetals: parseInt(event.target.value)});
+  onChange(event){
+    console.log(event);
+    this.setState({[event.target.name]: parseFloat(event.target.value)});
   }
   render() {
     return (
       <div>
         <div id="inputs">
           <label>number of petals</label>
-          <input type="number" value={this.state.numPetals} onChange={this.changeNumPetals} min={0} max={24}step={1}/>
+          <input type="number" name = "numPetals" value={this.state.numPetals} onChange={this.onChange} min={0} max={24}step={1}/>
+          <label>innerY</label>
+          <input type="number" name = "petalInnerYRelative" value={this.state.petalInnerYRelative} onChange={this.onChange} min={-1} max={1}step={0.1}/>
         </div>
         <Scene {...this.state}/>
       </div>
