@@ -100,8 +100,7 @@ class Scene extends Component{
     stemGeometry.rotateX(0.5*Math.PI);
     let stemMesh = new THREE.Mesh(stemGeometry, stemMaterial);
     // move stem so its top is level with flower base
-    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1), Math.abs(
-      0.5* stemHeight-flowerHeight));
+    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* stemHeight);
     scene.add(stemMesh);
 
     this.renderer = renderer;
