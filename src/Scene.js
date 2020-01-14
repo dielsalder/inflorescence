@@ -42,9 +42,18 @@ class Scene extends Component{
     return geometry;
   }
 
-  flowerMesh(numPetals){
-
+  flowerGeometry(numPetals, petalLength, petalInner, petalOuter, petalPitch){
+    let flowerGeometry = new THREE.Geometry();
+    for (let i = 0; i < numPetals; i++){
+      let petalGeometry = this.petalGeometry(0,0,petalLength,petalInner, petalOuter);
+      petalGeometry.rotateY(-petalPitch);
+      let rotAngle = 2*Math.PI/ numPetals;
+      petalGeometry.rotateZ(rotAngle*i);
+      flowerGeometry.merge(petalGeometry);
+    }
+    return flowerGeometry;
   }
+
   leafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
     // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
     let yCp1 = width1;
@@ -97,17 +106,10 @@ class Scene extends Component{
     let numPetals = 12;
     let petalPitch = 30*Math.PI/180;
     let petalLength = 6;
-    let innerPoint = -1;
-    let outerPoint = 3;
-    let flowerGeometry = new THREE.Geometry();
-    for (let i = 0; i < numPetals; i++){
-      let petalGeometry = this.petalGeometry(0,0,petalLength,innerPoint, outerPoint);
-      petalGeometry.rotateY(-petalPitch);
-      let rotAngle = 2*Math.PI/ numPetals;
-      petalGeometry.rotateZ(rotAngle*i);
-      flowerGeometry.merge(petalGeometry);
-    }
-    var flowerMesh = new THREE.Mesh( flowerGeometry, flowerMaterial) ;
+    let petalInner = -1;
+    let petalOuter = 3;
+    let flowerGeometry = this.flowerGeometry(numPetals,petalLength,petalInner,petalOuter, petalPitch); 
+    var flowerMesh = new THREE.Mesh(flowerGeometry, flowerMaterial) ;
     scene.add(flowerMesh)
 
     // draw stamens/disk as cylinder
