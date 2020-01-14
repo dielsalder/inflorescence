@@ -76,12 +76,12 @@ class Scene extends Component{
     }); 
 
     let numPetals = 6;
-    let petalPitch = 40*Math.PI/180;
-    let petalLength = 10;
+    let petalPitch = 30*Math.PI/180;
+    let petalLength = 5;
     let flowerHeight = petalLength*Math.sin(petalPitch);
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
-      let petalGeometry = this.petalGeometry(0,0,petalLength,1,4);
+      let petalGeometry = this.petalGeometry(0,0,petalLength,-3,6);
       petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
@@ -92,17 +92,22 @@ class Scene extends Component{
 
     // draw stem
     let stemHeight = 15;
-    let stemRadius = 0.5;
+    let stemMaterial = new THREE.MeshBasicMaterial({
+      color: "#96c76b",
+    })
+    let stemRadius = 0.25;
     let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,3);
     stemGeometry.rotateX(0.5*Math.PI);
-    let stemMesh = new THREE.Mesh(stemGeometry, material);
-    // this should be adjusted for stem height but i'll figure it out later
-    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1), Math.abs(flowerHeight));
+    let stemMesh = new THREE.Mesh(stemGeometry, stemMaterial);
+    // move stem so its top is level with flower base
+    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1), Math.abs(
+      0.5* stemHeight-flowerHeight));
     scene.add(stemMesh);
 
     this.renderer = renderer;
     this.scene = scene;
     this.camera = camera;
+
     // set this.object to combo of all meshes - the only use of this is to get bounding box so texture doesn't matter
     let allGeometry = new THREE.Geometry();
     allGeometry.merge(stemGeometry);
