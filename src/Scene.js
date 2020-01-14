@@ -148,14 +148,13 @@ class Scene extends Component{
     let leafInner = 5;
     let leafOuter = -1;
     let leafPitch = 15*(Math.PI/180);
-    // make bottom bound work? right now it starts at 0 no matter what
-    let leavesTopBound = -stemHeight*0.8;
-    let leavesBottomBound =  -stemHeight;
-    let translateBy = -1000;
+    let leavesTopBound = -stemHeight*0.4;
+    let leavesBottomBound =  -stemHeight*0.8;
+    let translateBy = leavesBottomBound;
     // absolutely no leaves above here
     let flowersTopBound = -petalLength*Math.sin(petalPitch);
     for (let i = 0; translateBy < leavesTopBound && translateBy < flowersTopBound; i++){
-      translateBy += (leafVertSpacing-stemHeight);
+      translateBy  += leafVertSpacing;
       let leafGeometry = this.leafGeometry(0,0,leafLength,leafInner, leafOuter, leafFoldAngle);
       leafGeometry.rotateY(-leafPitch);
       leafGeometry.rotateZ(i*leafRotAngle);
