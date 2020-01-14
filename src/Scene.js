@@ -69,19 +69,19 @@ class Scene extends Component{
     });
     let material = wireMaterial;
 
-    // spheres/discs for stamens
     // draw flower
     let flowerMaterial = new THREE.MeshLambertMaterial({
       color:"#24afff"
     }); 
 
-    let numPetals = 6;
+    let numPetals = 12;
     let petalPitch = 30*Math.PI/180;
-    let petalLength = 5;
-    let flowerHeight = petalLength*Math.sin(petalPitch);
+    let petalLength = 6;
+    let innerPoint = -1;
+    let outerPoint = 3;
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
-      let petalGeometry = this.petalGeometry(0,0,petalLength,-3,6);
+      let petalGeometry = this.petalGeometry(0,0,petalLength,innerPoint, outerPoint);
       petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
@@ -89,6 +89,21 @@ class Scene extends Component{
     }
     var flowerMesh = new THREE.Mesh( flowerGeometry, flowerMaterial) ;
     scene.add(flowerMesh)
+
+    // draw stamens/disk as cylinder
+    let centerMaterial = new THREE.MeshLambertMaterial( {
+      color:"#ffe600",
+      flatshading: true
+    });
+    let centerSides = 6;
+    let centerBottomRadius = 0;
+    let centerTopRadius = 1;
+    let centerHeight = .5;
+    let centerGeometry = new THREE.CylinderGeometry(centerTopRadius, centerBottomRadius, centerHeight, centerSides);
+    centerGeometry.rotateX(0.5*Math.PI);
+    let centerMesh = new THREE.Mesh(centerGeometry, centerMaterial);
+    centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), centerHeight);
+    scene.add(centerMesh);
 
     // draw stem
     let stemHeight = 15;
@@ -102,6 +117,27 @@ class Scene extends Component{
     // move stem so its top is level with flower base
     stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* stemHeight);
     scene.add(stemMesh);
+
+    //draw leaves
+    let leafRotAngle = 60 * (Math.PI/180);
+    let leafLength = 10;
+    let leafVertSpacing = 2;
+    let leafInner = 0;
+    let leafOuter = 3;
+    let leavesTopBound = stemHeight/2;
+    let translateBy = -1000;
+    // absolutely no leaves above here
+    let flowersTopBound = -petalLength*Math.sin(petalPitch);
+    for (let i = 0; translateBy < flowersTopBound; i++){
+      translateBy = i*(leafVertSpacing)-stemHeight;
+      let leafGeometry = this.petalGeometry(0,0,leafLength,leafInner, leafOuter);
+      leafGeometry.rotateY(-petalPitch);
+      leafGeometry.rotateZ(i*leafRotAngle);
+      let leafMesh = new THREE.Mesh(leafGeometry, wireMaterial);
+      //cut off if above flower plane
+      leafMesh.translateOnAxis(new THREE.Vector3(0,0,1),translateBy);
+      scene.add(leafMesh);
+    }
 
     this.renderer = renderer;
     this.scene = scene;
