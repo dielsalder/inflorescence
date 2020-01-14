@@ -66,7 +66,7 @@ class Scene extends Component{
       flatshading: true
     });
     this.stemMaterial = new THREE.MeshBasicMaterial({ color: this.props.leafStemColor, })
-    this.leafStemColor = "#69a339";
+    // this.leafStemColor = "#69a339";
   }
 
   componentWillMount(){
@@ -75,6 +75,12 @@ class Scene extends Component{
 
   componentDidMount(){
     this.setupScene();
+  }
+
+  componentDidUpdate(){
+    console.log(this.flowerMesh);
+    console.log("update");
+    this.redraw();
   }
 
   petalGeometry(xOrigin, yOrigin, petalLength, width1, width2){
@@ -104,6 +110,25 @@ class Scene extends Component{
       flowerGeometry.merge(petalGeometry);
     }
     return flowerGeometry;
+  }
+
+  addFlowerMesh(){
+    let flowerGeometry = this.flowerGeometry( this.props.numPetals,this.state.petalLength,this.state.petalInner,this.state.petalOuter, this.state.petalPitch); 
+    this.flowerMesh = new THREE.Mesh(flowerGeometry, this.flowerMaterial) ;
+    this.scene.add(this.flowerMesh)
+    console.log("number of petals=" + JSON.stringify(this.props.numPetals));
+    console.log("flower rendered");
+  }
+
+  removeMesh(mesh){
+    mesh.geometry.dispose();
+    mesh.material.dispose();
+    this.scene.remove(mesh);
+  }
+
+  redraw(){
+    this.removeMesh(this.flowerMesh);
+    this.addFlowerMesh();
   }
 
   leafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
@@ -137,25 +162,23 @@ class Scene extends Component{
     renderer.gammaFactor = 2.2
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    let scene = new THREE.Scene();
-    scene.background = new THREE.Color('white');
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color('white');
 
     let cameraPersp = new THREE.PerspectiveCamera(60, this.width/this.height, 0.25, 1000);
     let camera = cameraPersp;
-    scene.add(camera);
+    this.scene.add(camera);
 
 
     // draw flower
-    let flowerGeometry = this.flowerGeometry( this.state.numPetals,this.state.petalLength,this.state.petalInner,this.state.petalOuter, this.state.petalPitch); 
-    var flowerMesh = new THREE.Mesh(flowerGeometry, this.flowerMaterial) ;
-    scene.add(flowerMesh)
+    this.addFlowerMesh();
 
     // draw stamens/disk as cylinder
     let centerGeometry = new THREE.CylinderGeometry(this.state.centerTopRadius, this.state.centerBottomRadius, this.state.centerHeight, this.state.centerSides);
     centerGeometry.rotateX(0.5*Math.PI);
     let centerMesh = new THREE.Mesh(centerGeometry, this.centerMaterial);
     centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), this.state.centerTranslateZ);
-    scene.add(centerMesh);
+    this.scene.add(centerMesh);
 
     // let leafStemColor = "#96c76b";
     // draw stem
@@ -164,7 +187,7 @@ class Scene extends Component{
     let stemMesh = new THREE.Mesh(stemGeometry, this.stemMaterial);
     // move stem so its top is level with flower base
     stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* this.stemHeight);
-    scene.add(stemMesh);
+    this.scene.add(stemMesh);
 
     //draw leaves
     let leafRotAngle = 120 * (Math.PI/180);
@@ -187,17 +210,17 @@ class Scene extends Component{
       let leafMesh = new THREE.Mesh(leafGeometry, this.leafMaterial);
       //cut off if above flower plane
       leafMesh.translateOnAxis(new THREE.Vector3(0,0,1),translateBy);
-      scene.add(leafMesh);
+      this.scene.add(leafMesh);
     }
 
     this.renderer = renderer;
-    this.scene = scene;
+    this.scene = this.scene;
     this.camera = camera;
 
     // set this.object to combo of all meshes - the only use of this is to get bounding box so texture doesn't matter
     let allGeometry = new THREE.Geometry();
     allGeometry.merge(stemGeometry);
-    allGeometry.merge(flowerGeometry);
+    allGeometry.merge(this.flowerMesh.geometry);
     var allMesh = new THREE.Mesh( allGeometry, this.wireMaterial ) ;
     this.object = allMesh;
 

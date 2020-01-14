@@ -12,10 +12,18 @@ class App extends Component {
       flowerColor:"#24afff",
       leafStemColor:"#69a339",
     }
+    this.changeNumPetals = this.changeNumPetals.bind(this);
+  }
+  changeNumPetals(event){
+    this.setState({numPetals: parseInt(event.target.value)});
   }
   render() {
     return (
       <div>
+        <div id="inputs">
+          <label>number of petals</label>
+          <input type="number" value={this.state.numPetals} onChange={this.changeNumPetals} min={0} max={24}step={1}/>
+        </div>
         <Scene {...this.state}/>
       </div>
     );
