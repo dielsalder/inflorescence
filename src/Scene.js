@@ -86,19 +86,19 @@ class Scene extends Component{
     });
     let material = wireMaterial;
 
+    // spheres/discs for stamens
     // draw flower
     let flowerMaterial = new THREE.MeshLambertMaterial({
       color:"#24afff"
     }); 
 
-    let numPetals = 12;
+    let numPetals = 6;
     let petalPitch = 30*Math.PI/180;
-    let petalLength = 6;
-    let innerPoint = -1;
-    let outerPoint = 3;
+    let petalLength = 5;
+    let flowerHeight = petalLength*Math.sin(petalPitch);
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
-      let petalGeometry = this.petalGeometry(0,0,petalLength,innerPoint, outerPoint);
+      let petalGeometry = this.petalGeometry(0,0,petalLength,-3,6);
       petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
@@ -107,6 +107,7 @@ class Scene extends Component{
     var flowerMesh = new THREE.Mesh( flowerGeometry, flowerMaterial) ;
     scene.add(flowerMesh)
 
+<<<<<<< HEAD
     // draw stamens/disk as cylinder
     let centerMaterial = new THREE.MeshLambertMaterial( {
       color:"#ffe600",
@@ -123,6 +124,8 @@ class Scene extends Component{
     scene.add(centerMesh);
 
     let leafStemColor = "#96c76b";
+=======
+>>>>>>> parent of 5689801... starting on leaf drawing
     // draw stem
     let stemHeight = 15;
     let stemMaterial = new THREE.MeshBasicMaterial({
@@ -136,6 +139,7 @@ class Scene extends Component{
     stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* stemHeight);
     scene.add(stemMesh);
 
+<<<<<<< HEAD
     //draw leaves
     let leafMaterial = new THREE.MeshLambertMaterial({
       color:leafStemColor,
@@ -165,6 +169,8 @@ class Scene extends Component{
       scene.add(leafMesh);
     }
 
+=======
+>>>>>>> parent of 5689801... starting on leaf drawing
     this.renderer = renderer;
     this.scene = scene;
     this.camera = camera;
