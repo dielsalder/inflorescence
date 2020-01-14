@@ -41,6 +41,10 @@ class Scene extends Component{
     var geometry = new THREE.ShapeGeometry( petalShape );
     return geometry;
   }
+
+  flowerMesh(numPetals){
+
+  }
   leafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
     // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
     let yCp1 = width1;
@@ -84,7 +88,6 @@ class Scene extends Component{
       color: 0xff0000,
       wireframe: true
     });
-    let material = wireMaterial;
 
     // draw flower
     let flowerMaterial = new THREE.MeshLambertMaterial({
@@ -122,7 +125,8 @@ class Scene extends Component{
     centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), centerHeight);
     scene.add(centerMesh);
 
-    let leafStemColor = "#96c76b";
+    let leafStemColor = "#69a339";
+    // let leafStemColor = "#96c76b";
     // draw stem
     let stemHeight = 15;
     let stemMaterial = new THREE.MeshBasicMaterial({
@@ -141,15 +145,15 @@ class Scene extends Component{
       color:leafStemColor,
       flatshading:true
     });
-    let leafRotAngle = 100 * (Math.PI/180);
+    let leafRotAngle = 120 * (Math.PI/180);
     let leafFoldAngle = 20 * (Math.PI/180);
-    let leafLength = 10;
-    let leafVertSpacing = 2;
-    let leafInner = 5;
+    let leafLength = 8;
+    let leafVertSpacing = 3;
+    let leafInner = 8;
     let leafOuter = -1;
-    let leafPitch = 15*(Math.PI/180);
-    let leavesTopBound = -stemHeight*0.4;
-    let leavesBottomBound =  -stemHeight*0.8;
+    let leafPitch = 30*(Math.PI/180);
+    let leavesTopBound = -stemHeight*0.5;
+    let leavesBottomBound =  -stemHeight*0.9;
     let translateBy = leavesBottomBound;
     // absolutely no leaves above here
     let flowersTopBound = -petalLength*Math.sin(petalPitch);
@@ -172,7 +176,7 @@ class Scene extends Component{
     let allGeometry = new THREE.Geometry();
     allGeometry.merge(stemGeometry);
     allGeometry.merge(flowerGeometry);
-    var allMesh = new THREE.Mesh( allGeometry, material ) ;
+    var allMesh = new THREE.Mesh( allGeometry, wireMaterial ) ;
     this.object = allMesh;
 
     let spotLight = new THREE.SpotLight(0xffffff, 1)
