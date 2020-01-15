@@ -20,13 +20,6 @@ class Sliders extends Component {
                 <button type="button" onClick={parent.loadCached}>load saved flower</button>
               </span>
             </li>
-            {/* <li>
-              <span>
-              <label>parent 1</label>
-                <button type="button" onClick={parent.saveFlowerTo("p1")}>save</button>
-                <button type="button" onClick={parent.loadSavedFlower("p1")}>load</button>
-              </span>
-            </li> */}
             <li>
               <CompactPicker onChange={parent.onColorChange}/>
             </li>
@@ -57,6 +50,21 @@ class Sliders extends Component {
             <li>
               <label>outerY</label>
               <input type="range" name = "petalOuterYRelative" value={parent.state.petalOuterYRelative} onChange={this.props.changeHandler} min={-2} max={2}step={0.1}/>
+            </li>
+            <li ><h3>genetics</h3></li>
+            <li>
+              <label className="parent-label">parent 1</label>
+              <button type="button" onClick={parent.saveP1}>save</button>
+              <button type="button" onClick={parent.loadP1}>load</button>
+            </li>
+            <li>
+              <label className="parent-label">parent 2</label>
+              <button type="button" onClick={parent.saveP2}>save</button>
+              <button type="button" onClick={parent.loadP2}>load</button>
+            </li>
+            <li>
+              <label className="parent-label">child</label>
+              <button type="button" onClick={parent.saveP2}>view cross</button>
             </li>
           </ul>
         </div>

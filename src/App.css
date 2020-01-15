@@ -53,6 +53,10 @@
   display:inline-block;
   flex-basis:60%;
 }
+.Sliders h3 {
+  flex-basis: 100%;
+  min-width:100%;
+}
 .Scene{
   display:flex;
 }

@@ -17,12 +17,18 @@ class App extends Component {
       leafStemColor:"#69a339",
     }
     this.onChange = this.onChange.bind(this);
-    this.saveFlowerTo=this.saveFlowerTo.bind(this);
+    this.saveFlowerTo=this.saveFlower.bind(this);
     this.loadFlowerData=this.loadFlowerData.bind(this);
-    this.loadSavedFlower=this.loadSavedFlower.bind(this);
+    this.loadSavedFlower=this.loadFlower.bind(this);
     this.onColorChange=this.onColorChange.bind(this);
-    this.saveCached=this.saveFlowerTo.bind(this,"cached");
-    this.loadCached=this.loadSavedFlower.bind(this,"cached");
+
+    // saving functions that all use the same saveFlowerTo
+    this.saveCached=this.saveFlower.bind(this,"cached");
+    this.loadCached=this.loadFlower.bind(this,"cached");
+    this.saveP1 = this.saveFlower.bind(this, "p1")
+    this.loadP1 = this.loadFlower.bind(this, "p1")
+    this.saveP2 = this.saveFlower.bind(this, "p2")
+    this.loadP2 = this.loadFlower.bind(this, "p2")
 
     // dictionary for saving flowers
     this.savedFlowers = {}
@@ -57,12 +63,12 @@ class App extends Component {
   }
 
   /** save in flower dict */
-  saveFlowerTo(name){
+  saveFlower(name){
     this.savedFlowers[name] = this.getFlowerData();
   }
 
   /** load a specific saved flower */
-  loadSavedFlower(name){
+  loadFlower(name){
     this.loadFlowerData(this.savedFlowers[name])
   }
 
