@@ -21,7 +21,7 @@ class Sliders extends Component {
               </span>
             </li>
             <li>
-              <CompactPicker/>
+              <CompactPicker onChange={parent.onColorChange}/>
             </li>
             <li>
               <label>number of petals</label>

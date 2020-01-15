@@ -20,10 +20,14 @@ class App extends Component {
     this.cacheFlower=this.cacheFlower.bind(this);
     this.loadFlowerData=this.loadFlowerData.bind(this);
     this.loadCached=this.loadCached.bind(this);
+    this.onColorChange=this.onColorChange.bind(this);
   }
   onChange(event){
     console.log(event);
     this.setState({[event.target.name]: parseFloat(event.target.value)});
+  }
+  onColorChange(color,event){
+    this.setState({flowerColor: color.hex});
   }
   /** object containing current flower stats, from which this model can be recreated */
   getFlowerData(){
