@@ -39,13 +39,13 @@
 .inputs {
   display:block;
 }
-.ul{
-  /* background-color:red */
-}
 li{
-  display: inline-block;
+  display: block;
   padding: 4px;
 }
 input{
-  display:block;
+  display:flex;
+}
+.Scene{
+  display:flex;
 }

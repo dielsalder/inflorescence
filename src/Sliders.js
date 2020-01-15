@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import "./App.css";
 import PropTypes from "prop-types";
+import SliderPicker, { CompactPicker } from "react-color";
+
 class Sliders extends Component {
     static propTypes = {
         /** parent object taking input from this component */
@@ -12,6 +14,15 @@ class Sliders extends Component {
         return(
         <div id="inputs">
           <ul>
+            <li>
+              <span>
+                <button type="button" onClick={parent.cacheFlower}>save current flower</button>
+                <button type="button" onClick={parent.loadCached}>load saved flower</button>
+              </span>
+            </li>
+            <li>
+              <CompactPicker/>
+            </li>
             <li>
               <label>number of petals</label>
               <input type="range" name = "numPetals" value={parent.state.numPetals} onChange={this.props.changeHandler} min={0} max={24}step={1}/>
