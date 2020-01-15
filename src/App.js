@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Scene from './Scene';
 import Sliders from './Sliders';
 import "./App.css";
+import {hybridize} from './Hybridize';
 class App extends Component {
   constructor(props){
     super(props);
@@ -18,7 +19,7 @@ class App extends Component {
     }
     this.onChange = this.onChange.bind(this);
     this.saveFlowerTo=this.saveFlower.bind(this);
-    this.loadFlowerData=this.loadFlowerData.bind(this);
+    this.loadFlowerData=this.showFlower.bind(this);
     this.loadSavedFlower=this.loadFlower.bind(this);
     this.onColorChange=this.onColorChange.bind(this);
 
@@ -29,6 +30,7 @@ class App extends Component {
     this.loadP1 = this.loadFlower.bind(this, "p1")
     this.saveP2 = this.saveFlower.bind(this, "p2")
     this.loadP2 = this.loadFlower.bind(this, "p2")
+    this.crossFlowers = this.crossFlowers.bind(this);
 
     // dictionary for saving flowers
     this.savedFlowers = {}
@@ -58,7 +60,7 @@ class App extends Component {
   }
 
   /** import flowerData object and draw it */
-  loadFlowerData(flowerData){
+  showFlower(flowerData){
     this.setState(flowerData);
   }
 
@@ -69,7 +71,13 @@ class App extends Component {
 
   /** load a specific saved flower */
   loadFlower(name){
-    this.loadFlowerData(this.savedFlowers[name])
+    this.showFlower(this.savedFlowers[name])
+  }
+
+  /** cross stored p1 and p2 and display the result */
+  crossFlowers(){
+    const child = hybridize(this.savedFlowers["p1"], this.savedFlowers["p2"]);
+    this.showFlower(child);
   }
 
   render() {

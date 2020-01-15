@@ -64,7 +64,7 @@ class Sliders extends Component {
             </li>
             <li>
               <label className="parent-label">child</label>
-              <button type="button" onClick={parent.saveP2}>view cross</button>
+              <button type="button" onClick={parent.crossFlowers}>view cross</button>
             </li>
           </ul>
         </div>
