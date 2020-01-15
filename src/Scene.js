@@ -230,6 +230,7 @@ class Scene extends Component{
     // console.log(this.camera.zoom, this.camera.near, this.camera.far, this.camera.left, this.camera.right, this.camera.top, this.camera.bottom);
     // console.log(this.object.position);
     // console.log(this.camera.getWorldDirection());
+    this.renderToFile();
   }
 
   computeBoundingBox(){
@@ -310,6 +311,11 @@ class Scene extends Component{
     this.renderer = null;
   }
 
+  renderToFile(){
+    this.renderScene();
+    let imgData = this.renderer.domElement.toDataURL("image/png");
+    console.log(imgData);
+  }
 
   render(){
     const width = '100%';

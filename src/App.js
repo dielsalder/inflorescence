@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Scene from './Scene';
+import Sliders from './Sliders';
 import "./App.css";
 class App extends Component {
   constructor(props){
@@ -21,43 +22,16 @@ class App extends Component {
     console.log(event);
     this.setState({[event.target.name]: parseFloat(event.target.value)});
   }
+  /** export current floewr stats, from which this model can be recreated */
+  flowerStats(){
+
+  }
   render() {
     return (
-      <div>
-        <div id="inputs">
-          <ul>
-            <li>
-              <label>number of petals</label>
-              <input type="range" name = "numPetals" value={this.state.numPetals} onChange={this.onChange} min={0} max={24}step={1}/>
-            </li>
-            <li>
-              <label>size</label>
-              <input type="range" name = "petalLength" value={this.state.petalLength} onChange={this.onChange} min={0} max={8}step={0.1}/>
-            </li>
-            <li>
-              <label>pitch</label>
-              <input type="range" name = "petalPitch" value={this.state.petalPitch} onChange={this.onChange} min={-90*Math.PI/180} max={90*Math.PI/180}step={.01}/>
-            </li>
-            <li>
-              <label>innerX</label>
-              <input type="range" name = "petalInnerXRelative" value={this.state.petalInnerXRelative} onChange={this.onChange} min={0} max={2}step={0.1}/>
-            </li>
-            <li>
-              <label>innerY</label>
-              <input type="range" name = "petalInnerYRelative" value={this.state.petalInnerYRelative} onChange={this.onChange} min={-2} max={2}step={0.1}/>
-            </li>
-            <li>
-              <label>outerX</label>
-              <input type="range" name = "petalOuterXRelative" value={this.state.petalOuterXRelative} onChange={this.onChange} min={0} max={2}step={0.1}/>
-            </li>
-            <li>
-              <label>outerY</label>
-              <input type="range" name = "petalOuterYRelative" value={this.state.petalOuterYRelative} onChange={this.onChange} min={-2} max={2}step={0.1}/>
-            </li>
-          </ul>
+        <div>
+          <Sliders parent={this} changeHandler={this.onChange}/>
+          <Scene className="Scene" {...this.state}/>
         </div>
-        <Scene className="Scene" {...this.state}/>
-      </div>
     );
   }
 }
