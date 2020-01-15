@@ -49,8 +49,6 @@ class App extends Component {
 
   cacheFlower(){
     this.cachedFlower = this.getFlowerData();
-    console.log("saved: ");
-    console.log(this.cachedFlower);
   }
 
   loadCached(){
@@ -61,9 +59,9 @@ class App extends Component {
     return (
         <div>
           <div>
-          <button type="button" onClick={this.cacheFlower}>save current flower</button>
-          <button type="button" onClick={this.loadCached}>load saved flower</button>
-        </div>
+            <button type="button" onClick={this.cacheFlower}>save current flower</button>
+            <button type="button" onClick={this.loadCached}>load saved flower</button>
+          </div>
           <Sliders parent={this} changeHandler={this.onChange}/>
           <div>
             <Scene className="Scene" {...this.state}/>
