@@ -57,10 +57,10 @@ class App extends Component {
 
   render() {
     return (
-        <div>
-          <Sliders parent={this} changeHandler={this.onChange}/>
-          <div>
-            <Scene className="Scene" {...this.state}/>
+        <div className="container">
+          <div className="Sliders"><Sliders parent={this} changeHandler={this.onChange}/></div>
+          <div className="Scene">
+            <Scene  {...this.state}/>
           </div>
         </div>
     );

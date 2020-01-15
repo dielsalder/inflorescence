@@ -36,15 +36,22 @@
   flex-basis: 100%;
   flex: 1;
 }
-.inputs {
-  display:block;
+.container {
+  display:flex;
 }
-li{
-  display: block;
+.Sliders {
+  display:flex;
+}
+.Sliders label {
+  flex-basis:40%;
+}
+.Sliders li{
+  display: flex;
   padding: 4px;
 }
-input{
-  display:flex;
+.Sliders input{
+  display:inline-block;
+  flex-basis:60%;
 }
 .Scene{
   display:flex;
