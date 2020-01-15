@@ -7,15 +7,18 @@ function pickOne(trait, p1, p2){
 /** cross p1 and p2 (json objects containing flower data) */
 function hybridize(p1, p2){
     let flowerData = {
-        numPetals:p1.numPetals,
-        petalLength: p2.petalLength,
-        petalPitch : p1.petalPitch,
-        petalInnerXRelative:p1.petalInnerXRelative,
-        petalOuterXRelative:p2.petalOuterXRelative,
-        petalInnerYRelative:p1.petalInnerYRelative,
-        petalOuterYRelative:p2.petalOuterYRelative,
-        flowerColor:p1.flowerColor,
+        numPetals: null,
+        petalLength:  null,
+        petalPitch :  null,
+        petalInnerXRelative:null,
+        petalOuterXRelative:null,
+        petalInnerYRelative:null,
+        petalOuterYRelative:null,
+        flowerColor:null,
         leafStemColor:"#69a339",
+    }
+    for (const trait in flowerData){
+        flowerData[trait] = pickOne(trait,p1,p2);
     }
     return flowerData;
 }
