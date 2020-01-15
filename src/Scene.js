@@ -109,7 +109,6 @@ class Scene extends Component{
     let flowerGeometry = this.flowerGeometry( this.props.numPetals,this.props.petalLength,this.props.petalInnerXRelative, this.props.petalInnerYRelative,this.props.petalOuterXRelative,this.props.petalOuterYRelative, this.props.petalPitch); 
     this.flowerMesh = new THREE.Mesh(flowerGeometry, this.flowerMaterial) ;
     this.scene.add(this.flowerMesh)
-    console.log("number of petals=" + JSON.stringify(this.props.numPetals));
     console.log("flower rendered");
   }
 
@@ -314,7 +313,6 @@ class Scene extends Component{
   renderToFile(){
     this.renderScene();
     let imgData = this.renderer.domElement.toDataURL("image/png");
-    console.log(imgData);
   }
 
   render(){

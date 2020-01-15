@@ -17,20 +17,57 @@ class App extends Component {
       leafStemColor:"#69a339",
     }
     this.onChange = this.onChange.bind(this);
+    this.cacheFlower=this.cacheFlower.bind(this);
+    this.loadFlowerData=this.loadFlowerData.bind(this);
+    this.loadCached=this.loadCached.bind(this);
   }
   onChange(event){
     console.log(event);
     this.setState({[event.target.name]: parseFloat(event.target.value)});
   }
-  /** export current floewr stats, from which this model can be recreated */
-  flowerStats(){
-
+  /** object containing current flower stats, from which this model can be recreated */
+  getFlowerData(){
+    // only get flower stats, since state contains many things
+    const flowerData = {
+      numPetals:this.state.numPetals,
+      petalLength:this.state.petalLength,
+      petalPitch : this.state.petalPitch,
+      petalInnerXRelative:this.state.petalInnerXRelative,
+      petalOuterXRelative:this.state.petalOuterXRelative,
+      petalInnerYRelative:this.state.petalInnerYRelative,
+      petalOuterYRelative:this.state.petalOuterYRelative,
+      flowerColor:this.state.flowerColor,
+      leafStemColor:this.state.leafStemColor,
+    }
+    return flowerData;
   }
+
+  /** import flowerData object and draw it */
+  loadFlowerData(flowerData){
+    this.setState(flowerData);
+  }
+
+  cacheFlower(){
+    this.cachedFlower = this.getFlowerData();
+    console.log("saved: ");
+    console.log(this.cachedFlower);
+  }
+
+  loadCached(){
+    this.loadFlowerData(this.cachedFlower);
+  }
+
   render() {
     return (
         <div>
+          <div>
+          <button type="button" onClick={this.cacheFlower}>save current flower</button>
+          <button type="button" onClick={this.loadCached}>load saved flower</button>
+        </div>
           <Sliders parent={this} changeHandler={this.onChange}/>
-          <Scene className="Scene" {...this.state}/>
+          <div>
+            <Scene className="Scene" {...this.state}/>
+          </div>
         </div>
     );
   }
