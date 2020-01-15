@@ -17,10 +17,15 @@ class App extends Component {
       leafStemColor:"#69a339",
     }
     this.onChange = this.onChange.bind(this);
-    this.cacheFlower=this.cacheFlower.bind(this);
+    this.saveFlowerTo=this.saveFlowerTo.bind(this);
     this.loadFlowerData=this.loadFlowerData.bind(this);
-    this.loadCached=this.loadCached.bind(this);
+    this.loadSavedFlower=this.loadSavedFlower.bind(this);
     this.onColorChange=this.onColorChange.bind(this);
+    this.saveCached=this.saveFlowerTo.bind(this,"cached");
+    this.loadCached=this.loadSavedFlower.bind(this,"cached");
+
+    // dictionary for saving flowers
+    this.savedFlowers = {}
   }
   onChange(event){
     console.log(event);
@@ -51,12 +56,14 @@ class App extends Component {
     this.setState(flowerData);
   }
 
-  cacheFlower(){
-    this.cachedFlower = this.getFlowerData();
+  /** save in flower dict */
+  saveFlowerTo(name){
+    this.savedFlowers[name] = this.getFlowerData();
   }
 
-  loadCached(){
-    this.loadFlowerData(this.cachedFlower);
+  /** load a specific saved flower */
+  loadSavedFlower(name){
+    this.loadFlowerData(this.savedFlowers[name])
   }
 
   render() {

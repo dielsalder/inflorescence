@@ -16,10 +16,17 @@ class Sliders extends Component {
           <ul>
             <li>
               <span>
-                <button type="button" onClick={parent.cacheFlower}>save current flower</button>
+                <button type="button" onClick={parent.saveCached}>save current flower</button>
                 <button type="button" onClick={parent.loadCached}>load saved flower</button>
               </span>
             </li>
+            {/* <li>
+              <span>
+              <label>parent 1</label>
+                <button type="button" onClick={parent.saveFlowerTo("p1")}>save</button>
+                <button type="button" onClick={parent.loadSavedFlower("p1")}>load</button>
+              </span>
+            </li> */}
             <li>
               <CompactPicker onChange={parent.onColorChange}/>
             </li>
