@@ -31,8 +31,12 @@ class App extends Component {
               <input type="range" name = "numPetals" value={this.state.numPetals} onChange={this.onChange} min={0} max={24}step={1}/>
             </li>
             <li>
-              <label>petal length</label>
+              <label>size</label>
               <input type="range" name = "petalLength" value={this.state.petalLength} onChange={this.onChange} min={0} max={8}step={0.1}/>
+            </li>
+            <li>
+              <label>pitch</label>
+              <input type="range" name = "petalPitch" value={this.state.petalPitch} onChange={this.onChange} min={-90*Math.PI/180} max={90*Math.PI/180}step={.01}/>
             </li>
             <li>
               <label>innerX</label>
