@@ -52,6 +52,27 @@ class Sliders extends Component {
               <label>outerY</label>
               <input type="range" name = "petalOuterYRelative" value={parent.state.petalOuterYRelative} onChange={this.props.changeHandler} min={-2} max={2}step={0.1}/>
             </li>
+            <li><h3>leaves</h3></li>
+            <li>
+              <label>inner</label>
+              <input type="range" name = "leafInner" value={parent.state.leafInner} onChange={this.props.parent.onLeafChange} min={0} max={2}step={0.1}/>
+            </li>
+            <li>
+              <label>outer</label>
+              <input type="range" name = "leafOuter" value={parent.state.leafOuter} onChange={this.props.parent.onLeafChange} min={0} max={2}step={0.1}/>
+            </li>
+            <li>
+              <label>length</label>
+              <input type="range" name = "leafLength" value={parent.state.leafLength} onChange={this.props.parent.onLeafChange} min={0} max={15}step={0.1}/>
+            </li>
+            <li>
+              <label>angle</label>
+              <input type="range" name = "leafRotAngle" value={parent.state.RotAngle} onChange={this.props.parent.onLeafChange} min={0} max={360*Math.PI/180}step={.01}/>
+            </li>
+            <li>
+              <label>height</label>
+              <input type="range" name = "leavesTopBound" value={parent.state.leavesTopBound} onChange={this.props.parent.onLeafChange} min={0} max={1}step={.01}/>
+            </li>
             <li ><h3>genetics</h3></li>
             <li>
               <label className="parent-label">parent 1</label>

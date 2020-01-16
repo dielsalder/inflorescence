@@ -24,6 +24,9 @@ class Scene extends Component{
     leafStemColor: PropTypes.string,
     /** color of flowers - hex code */
     flowerColor: PropTypes.string,
+    flowerUpdated: PropTypes.Boolean,
+    leafUpdated: PropTypes.Boolean,
+    parent:Component
   }
   constructor(props){
     super(props);
@@ -48,15 +51,10 @@ class Scene extends Component{
       color: 0xff0000,
       wireframe: true
     });
-    this.leafMaterial = new THREE.MeshLambertMaterial({
-      color:this.props.leafStemColor,
-      flatshading:true
-    });
     this.centerMaterial = new THREE.MeshLambertMaterial( {
       color:"#ffe600",
       flatshading: true
     });
-    this.stemMaterial = new THREE.MeshBasicMaterial({ color: this.props.leafStemColor, })
     // this.leafStemColor = "#69a339";
   }
 
@@ -68,9 +66,16 @@ class Scene extends Component{
     this.setupScene();
   }
 
-  componentDidUpdate(){
+  componentDidUpdate(prevProps){
     console.log("redrawing...");
-    this.redraw();
+    if(this.props.flowerUpdated){
+      this.redrawFlower();
+      this.props.parent.state.flowerUpdated = false;
+    }
+    if(this.props.leafUpdated){
+      this.redrawLeaves();
+      this.props.parent.state.leafUpdated=false;
+    }
   }
 
   addFlowerMesh(){
@@ -105,9 +110,13 @@ class Scene extends Component{
     this.scene.remove(mesh);
   }
 
-  redraw(){
+  redrawFlower(){
     this.removeMesh(this.flowerMesh);
     this.addFlowerMesh();
+  }
+  redrawLeaves(){
+    this.removeMesh(this.leafMesh);
+    this.addLeafMesh();
   }
 
   setupScene(){

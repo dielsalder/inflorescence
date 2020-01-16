@@ -78,7 +78,7 @@ function leafMesh(flowerData){
     let leafInner = flowerData.leafInner*leafLength;
     let leafOuter = flowerData.leafOuter*leafLength;
     let leafPitch = flowerData.leafPitch;
-    let leavesTopBound = -flowerData.stemHeight*flowerData.leavesTopBound;
+    let leavesTopBound = -flowerData.stemHeight*(1-flowerData.leavesTopBound);
     let leavesBottomBound =  -flowerData.stemHeight*0.9;
     let translateBy = leavesBottomBound;
     // absolutely no leaves above here

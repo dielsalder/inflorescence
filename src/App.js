@@ -21,11 +21,12 @@ class App extends Component {
       leafSpacing:3,
       stemHeight:15,
       leafInner:0.2,
-      leafOuter:-0.1,
+      leafOuter:0,
       leafPitch: 30*Math.PI/180,
       leavesTopBound:0.5,
     }
     this.onChange = this.onChange.bind(this);
+    this.onLeafChange = this.onLeafChange.bind(this);
     this.saveFlowerTo=this.saveFlower.bind(this);
     this.loadFlowerData=this.showFlower.bind(this);
     this.loadSavedFlower=this.loadFlower.bind(this);
@@ -43,8 +44,13 @@ class App extends Component {
     // dictionary for saving flowers
     this.savedFlowers = {}
   }
-  onChange(event,value){
-    this.setState({[event.target.name]: parseFloat(event.target.value)});
+  onChange(event){
+    this.setState({...{flowerUpdated:true},
+      ...{[event.target.name]: parseFloat(event.target.value)}});
+  }
+  onLeafChange(event){
+    this.setState({...{leafUpdated:true},
+      ...{[event.target.name]: parseFloat(event.target.value)}});
   }
   onColorChange(color,event){
     this.setState({flowerColor: color.hex});
@@ -94,7 +100,7 @@ class App extends Component {
         <div className="container">
           <div className="Sliders"><Sliders parent={this} changeHandler={this.onChange}/></div>
           <div className="Scene">
-            <Scene  {...this.state}/>
+            <Scene  {...this.state} parent={this}/>
           </div>
         </div>
     );
