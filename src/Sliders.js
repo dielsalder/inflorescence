@@ -66,12 +66,20 @@ class Sliders extends Component {
               <input type="range" name = "leafLength" value={parent.state.leafLength} onChange={this.props.parent.onLeafChange} min={0} max={15}step={0.1}/>
             </li>
             <li>
-              <label>angle</label>
+              <label>rot. angle</label>
               <input type="range" name = "leafRotAngle" value={parent.state.RotAngle} onChange={this.props.parent.onLeafChange} min={0} max={360*Math.PI/180}step={.01}/>
             </li>
             <li>
               <label>height</label>
               <input type="range" name = "leavesTopBound" value={parent.state.leavesTopBound} onChange={this.props.parent.onLeafChange} min={0} max={1}step={.01}/>
+            </li>
+            <li>
+              <label>spacing</label>
+              <input type="range" name = "leafSpacing" value={parent.state.leafSpacing} onChange={this.props.parent.onLeafChange} min={0.5} max={10}step={.01}/>
+            </li>
+            <li>
+              <label>pitch</label>
+              <input type="range" name = "leafPitch" value={parent.state.leafPitch} onChange={this.props.parent.onLeafChange} min={-90*Math.PI/180} max={90*Math.PI/180}step={.01}/>
             </li>
             <li ><h3>genetics</h3></li>
             <li>
