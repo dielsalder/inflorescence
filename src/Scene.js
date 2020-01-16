@@ -80,6 +80,13 @@ class Scene extends Component{
     }
   }
 
+  updateObject(){
+    // doesn't work rip
+    this.removeMesh(this.object);
+    let mesh = DrawFlower.plantModel(this.props);
+    this.object = mesh;
+  }
+
   redrawAll(){
     this.redrawFlower();
     this.redrawLeaves();
@@ -147,7 +154,6 @@ class Scene extends Component{
 
     // draw flower
     this.addFlowerMesh();
-
     this.addStemMesh();
     this.addLeafMesh();
 
@@ -156,11 +162,8 @@ class Scene extends Component{
     this.camera = camera;
 
     // set this.object to combo of all meshes - the only use of this is to get bounding box so texture doesn't matter
-    let allGeometry = new THREE.Geometry();
-    allGeometry.merge(this.stemMesh.geometry);
-    allGeometry.merge(this.flowerMesh.geometry);
-    var allMesh = new THREE.Mesh( allGeometry, this.wireMaterial ) ;
-    this.object = allMesh;
+    let mesh = DrawFlower.plantModel(this.props);
+    this.object = mesh;
 
     let spotLight = new THREE.SpotLight(0xffffff, 0.9)
     spotLight.position.set(10, 20, 15);
