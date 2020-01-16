@@ -75,7 +75,7 @@ class Scene extends Component{
 
   addFlowerMesh(){
     // x values are 0 and 1 by default
-    this.flowerMesh = DrawFlower.flowerMesh( this.props.numPetals,this.props.petalLength,this.props.petalInnerXRelative, this.props.petalInnerYRelative,this.props.petalOuterXRelative,this.props.petalOuterYRelative, this.props.petalPitch, this.props.flowerColor); 
+    this.flowerMesh = DrawFlower.flowerMesh(this.props); 
     this.scene.add(this.flowerMesh)
     console.log("flower rendered");
   }

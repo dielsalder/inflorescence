@@ -1,37 +1,37 @@
 import React, {Component} from 'react';
 import * as THREE from 'three';
 
-function makePetalGeometry(xOrigin, yOrigin, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative){
+function makePetalGeometry(xOrigin, yOrigin, flowerData){
     // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
-    let xCp1 = xOrigin + petalLength*petalInnerXRelative
-    let yCp1 = yOrigin+ petalLength*petalInnerYRelative;
-    let yCp2 = yOrigin+ petalLength*petalOuterYRelative;
+    let xCp1 = xOrigin + flowerData.petalLength*flowerData.petalInnerXRelative
+    let yCp1 = yOrigin+ flowerData.petalLength*flowerData.petalInnerYRelative;
+    let yCp2 = yOrigin+ flowerData.petalLength*flowerData.petalOuterYRelative;
     // lies along x Axis
-    let xCp2 = xOrigin + petalLength*petalOuterXRelative;
+    let xCp2 = xOrigin + flowerData.petalLength*flowerData.petalOuterXRelative;
 
     // curve along x axis from (xOrigin, yOrigin) to (xOrigin, petalLength)
     var petalShape = new THREE.Shape();
-    petalShape.bezierCurveTo(xCp1,yCp1, xCp2, yCp2, petalLength, yOrigin );
+    petalShape.bezierCurveTo(xCp1,yCp1, xCp2, yCp2, flowerData.petalLength, yOrigin );
     petalShape.bezierCurveTo(xCp2, - yCp2, xCp1, -yCp1, xOrigin, yOrigin);
 
     var geometry = new THREE.ShapeGeometry( petalShape );
     return geometry;
 };
-function makeFlowerGeometry(numPetals, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative, petalPitch) {
-    let flowerGeometry = new THREE.Geometry();
-    for (let i = 0; i < numPetals; i++){
-      let petalGeometry = makePetalGeometry(0,0,petalLength,petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative);
-      petalGeometry.rotateY(-petalPitch);
-      let rotAngle = 2*Math.PI/ numPetals;
-      petalGeometry.rotateZ(rotAngle*i);
-      flowerGeometry.merge(petalGeometry);
-    }
-    return flowerGeometry;
+function makeFlowerGeometry(flowerData) {
+  let flowerGeometry = new THREE.Geometry();
+  for (let i = 0; i < flowerData.numPetals; i++){
+    let petalGeometry = makePetalGeometry(0,0, flowerData);
+    petalGeometry.rotateY(-flowerData.petalPitch);
+    let rotAngle = 2*Math.PI/ flowerData.numPetals;
+    petalGeometry.rotateZ(rotAngle*i);
+    flowerGeometry.merge(petalGeometry);
   }
-function flowerMesh(numPetals, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative, petalPitch, flowerColor){
-    let flowerGeometry = makeFlowerGeometry(numPetals,petalLength,petalInnerXRelative,petalInnerYRelative,petalOuterXRelative,petalOuterYRelative, petalPitch); 
+  return flowerGeometry;
+  }
+function flowerMesh(flowerData){
+    let flowerGeometry = makeFlowerGeometry(flowerData); 
     let flowerMesh = new THREE.Mesh(flowerGeometry, 
-        new THREE.MeshLambertMaterial({ color:flowerColor }));
+        new THREE.MeshLambertMaterial({ color:flowerData.flowerColor }));
     return flowerMesh;
 }
 function stemMesh(stemRadius,stemHeight,stemColor){
