@@ -81,21 +81,6 @@ class Sliders extends Component {
               <label>pitch</label>
               <input type="range" name = "leafPitch" value={parent.state.leafPitch} onChange={this.props.parent.onLeafChange} min={-90*Math.PI/180} max={90*Math.PI/180}step={.01}/>
             </li>
-            <li ><h3>genetics</h3></li>
-            <li>
-              <label className="parent-label">parent 1</label>
-              <button type="button" onClick={parent.saveP1}>save</button>
-              <button type="button" onClick={parent.loadP1}>load</button>
-            </li>
-            <li>
-              <label className="parent-label">parent 2</label>
-              <button type="button" onClick={parent.saveP2}>save</button>
-              <button type="button" onClick={parent.loadP2}>load</button>
-            </li>
-            <li>
-              <label className="parent-label">child</label>
-              <button type="button" onClick={parent.crossFlowers}>view cross</button>
-            </li>
           </ul>
         </div>
         )

@@ -24,6 +24,8 @@ class App extends Component {
       leafOuter:0,
       leafPitch: 30*Math.PI/180,
       leavesTopBound:0.5,
+      flowerUpdated:false,
+      leafUpdated:false
     }
     this.onChange = this.onChange.bind(this);
     this.onLeafChange = this.onLeafChange.bind(this);
@@ -53,7 +55,8 @@ class App extends Component {
       ...{[event.target.name]: parseFloat(event.target.value)}});
   }
   onColorChange(color,event){
-    this.setState({flowerColor: color.hex});
+    this.setState({...{flowerUpdated:true},
+      ...{flowerColor:color.hex}});
   }
   /** object containing current flower stats, from which this model can be recreated */
   getFlowerData(){
@@ -68,12 +71,21 @@ class App extends Component {
       petalOuterYRelative:this.state.petalOuterYRelative,
       flowerColor:this.state.flowerColor,
       leafStemColor:this.state.leafStemColor,
+      leafRotAngle:this.state.leafRotAngle,
+      leafLength:this.state.leafLength,
+      leafSpacing:this.state.leafSpacing,
+      stemHeight:this.state.stemHeight,
+      leafInner:this.state.leafInner,
+      leafOuter:this.state.leafOuter,
+      leafPitch: this.state.leafPitch,
+      leavesTopBound:this.state.leavesTopBound,
     }
     return flowerData;
   }
 
   /** import flowerData object and draw it */
   showFlower(flowerData){
+    this.setState({flowerUpdated:true,leafUpdated:true});
     this.setState(flowerData);
   }
 

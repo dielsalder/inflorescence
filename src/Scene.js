@@ -73,9 +73,16 @@ class Scene extends Component{
       this.props.parent.state.flowerUpdated = false;
     }
     if(this.props.leafUpdated){
+      console.log("redrawing leaves");
       this.redrawLeaves();
+      console.log(this.leafMesh);
       this.props.parent.state.leafUpdated=false;
     }
+  }
+
+  redrawAll(){
+    this.redrawFlower();
+    this.redrawLeaves();
   }
 
   addFlowerMesh(){
