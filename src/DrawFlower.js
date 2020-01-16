@@ -71,21 +71,21 @@ function makeLeafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFold
 }
 
 function leafMesh(flowerData){
-    let leafRotAngle = 120 * (Math.PI/180);
+    let leafRotAngle = flowerData.leafRotAngle;
     let leafFoldAngle = 20 * (Math.PI/180);
-    let leafLength = 10;
-    let leafVertSpacing = 3;
-    let leafInner = 2;
-    let leafOuter = -1;
-    let leafPitch = 30*(Math.PI/180);
-    let leavesTopBound = -flowerData.stemHeight*0.5;
+    let leafLength = flowerData.leafLength;
+    let leafSpacing = flowerData.leafSpacing;
+    let leafInner = flowerData.leafInner*leafLength;
+    let leafOuter = flowerData.leafOuter*leafLength;
+    let leafPitch = flowerData.leafPitch;
+    let leavesTopBound = -flowerData.stemHeight*flowerData.leavesTopBound;
     let leavesBottomBound =  -flowerData.stemHeight*0.9;
     let translateBy = leavesBottomBound;
     // absolutely no leaves above here
     let flowersTopBound = 0;
     let leafGeometry = new THREE.Geometry();
     for (let i = 0; translateBy < leavesTopBound && translateBy < flowersTopBound; i++){
-      translateBy  += leafVertSpacing;
+      translateBy  += leafSpacing;
       let newLeaf = makeLeafGeometry(0,0,leafLength,leafInner, leafOuter, leafFoldAngle);
       newLeaf.rotateY(-leafPitch);
       newLeaf.rotateZ(i*leafRotAngle);

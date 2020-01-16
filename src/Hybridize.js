@@ -15,17 +15,8 @@ function pickOne(trait, p1, p2){
 /** cross p1 and p2 (json objects containing flower data) */
 function hybridize(p1, p2){
     let flowerData = {
-        numPetals: null,
-        petalLength:  null,
-        petalPitch :  null,
-        petalInnerXRelative:null,
-        petalOuterXRelative:null,
-        petalInnerYRelative:null,
-        petalOuterYRelative:null,
-        flowerColor:null,
-        leafStemColor:"#69a339",
     }
-    for (const trait in flowerData){
+    for (const trait in p1){
         flowerData[trait] = pickOne(trait,p1,p2);
     }
     flowerData.flowerColor = colorBetween(p1.flowerColor,p2.flowerColor);
