@@ -1,27 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## React + Three JS Boilerplate
-
-A minimilistic and extendable react + [three js](https://threejs.org/) boilerplate to get you started with webgl in browser in no time.
-
-## DEMO
-
-https://react-three-boilerplate.herokuapp.com/ <br>
-
-![Alt Text](https://media.giphy.com/media/8L1JJl5x2QRaTpkrJw/giphy.gif)
-
-## To Run locally and experiment
-
-git clone https://github.com/asjadanis/react-three-boilerplate.git <br>
-npm install <br>
-npm start <br>
-
-## Learning Resources
-
-1) https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene <br>
-2) https://www.pandaqi.com/Games/overview/Threejs <br>
-3) https://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/ <br>
-4) https://www.toptal.com/javascript/3d-graphics-a-webgl-tutorial
+## inflorescence
+testing tool for procedural flower generation
+based on this threeJS boilerplate: https://react-three-boilerplate.herokuapp.com/ 
 
 ### `npm start`
 
