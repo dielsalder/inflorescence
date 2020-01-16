@@ -23,6 +23,7 @@ class Sliders extends Component {
             <li>
               <CompactPicker onChange={parent.onColorChange}/>
             </li>
+            <li><h3>petal settings</h3></li>
             <li>
               <label>number of petals</label>
               <input type="range" name = "numPetals" value={parent.state.numPetals} onChange={this.props.changeHandler} min={0} max={24}step={1}/>

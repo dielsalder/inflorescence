@@ -79,6 +79,13 @@ class Scene extends Component{
     this.scene.add(this.flowerMesh)
     console.log("flower rendered");
   }
+  addStemMesh(){
+    // draw stem
+    this.stemMesh = DrawFlower.stemMesh(this.stemRadius, this.stemHeight, this.props.leafStemColor);
+    // move stem so its top is level with flower base
+    this.stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* this.stemHeight);
+    this.scene.add(this.stemMesh);
+  }
 
   removeMesh(mesh){
     mesh.geometry.dispose();
@@ -92,7 +99,6 @@ class Scene extends Component{
   }
 
   leafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
-    // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
     let yCp1 = width1;
     let yCp2 = width2;
     // lies along x Axis
@@ -140,14 +146,7 @@ class Scene extends Component{
     centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), this.state.centerTranslateZ);
     this.scene.add(centerMesh);
 
-    // let leafStemColor = "#96c76b";
-    // draw stem
-    let stemGeometry = new THREE.CylinderGeometry(this.stemRadius, this.stemRadius, this.stemHeight,3);
-    stemGeometry.rotateX(0.5*Math.PI);
-    let stemMesh = new THREE.Mesh(stemGeometry, this.stemMaterial);
-    // move stem so its top is level with flower base
-    stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* this.stemHeight);
-    this.scene.add(stemMesh);
+    this.addStemMesh();
 
     //draw leaves
     let leafRotAngle = 120 * (Math.PI/180);
@@ -179,7 +178,7 @@ class Scene extends Component{
 
     // set this.object to combo of all meshes - the only use of this is to get bounding box so texture doesn't matter
     let allGeometry = new THREE.Geometry();
-    allGeometry.merge(stemGeometry);
+    allGeometry.merge(this.stemMesh.geometry);
     allGeometry.merge(this.flowerMesh.geometry);
     var allMesh = new THREE.Mesh( allGeometry, this.wireMaterial ) ;
     this.object = allMesh;

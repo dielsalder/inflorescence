@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import * as THREE from 'three';
 
-function getPetalGeometry(xOrigin, yOrigin, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative){
+function makePetalGeometry(xOrigin, yOrigin, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative){
     // petal shape control - keep these positive to avoid clipping, but clipping also looks sorta cool
     let xCp1 = xOrigin + petalLength*petalInnerXRelative
     let yCp1 = yOrigin+ petalLength*petalInnerYRelative;
@@ -17,10 +17,10 @@ function getPetalGeometry(xOrigin, yOrigin, petalLength, petalInnerXRelative, pe
     var geometry = new THREE.ShapeGeometry( petalShape );
     return geometry;
 };
-function getFlowerGeometry(numPetals, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative, petalPitch) {
+function makeFlowerGeometry(numPetals, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative, petalPitch) {
     let flowerGeometry = new THREE.Geometry();
     for (let i = 0; i < numPetals; i++){
-      let petalGeometry = getPetalGeometry(0,0,petalLength,petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative);
+      let petalGeometry = makePetalGeometry(0,0,petalLength,petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative);
       petalGeometry.rotateY(-petalPitch);
       let rotAngle = 2*Math.PI/ numPetals;
       petalGeometry.rotateZ(rotAngle*i);
@@ -29,9 +29,20 @@ function getFlowerGeometry(numPetals, petalLength, petalInnerXRelative, petalInn
     return flowerGeometry;
   }
 function flowerMesh(numPetals, petalLength, petalInnerXRelative, petalInnerYRelative, petalOuterXRelative, petalOuterYRelative, petalPitch, flowerColor){
-    let flowerGeometry = getFlowerGeometry(numPetals,petalLength,petalInnerXRelative,petalInnerYRelative,petalOuterXRelative,petalOuterYRelative, petalPitch); 
+    let flowerGeometry = makeFlowerGeometry(numPetals,petalLength,petalInnerXRelative,petalInnerYRelative,petalOuterXRelative,petalOuterYRelative, petalPitch); 
     let flowerMesh = new THREE.Mesh(flowerGeometry, 
         new THREE.MeshLambertMaterial({ color:flowerColor }));
     return flowerMesh;
 }
-export {flowerMesh};
+function stemMesh(stemRadius,stemHeight,stemColor){
+    const stemSubdivisions=3;
+    let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,stemSubdivisions);
+    stemGeometry.rotateX(0.5*Math.PI);
+    let stemMesh = new THREE.Mesh(stemGeometry,
+      new THREE.MeshBasicMaterial({
+        color:stemColor,
+      }));
+    return stemMesh;
+}
+
+export {flowerMesh, stemMesh};
