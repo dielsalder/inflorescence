@@ -82,8 +82,21 @@ class Scene extends Component{
   addStemMesh(){
     // draw stem
     this.stemMesh = DrawFlower.stemMesh(this.props);
-    // move stem so its top is level with flower base
     this.scene.add(this.stemMesh);
+  }
+  addLeafMesh(){
+    this.leafMesh=DrawFlower.leafMesh(this.props);
+    this.scene.add(this.leafMesh);
+  }
+  addCenterMesh(){
+    // not currently using
+    // draw stamens/disk as cylinder
+    let centerGeometry = new THREE.CylinderGeometry(this.state.centerTopRadius, this.state.centerBottomRadius, this.state.centerHeight, this.state.centerSides);
+    centerGeometry.rotateX(0.5*Math.PI);
+    let centerMesh = new THREE.Mesh(centerGeometry, this.centerMaterial);
+    centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), this.state.centerTranslateZ);
+    this.scene.add(centerMesh);
+
   }
 
   removeMesh(mesh){
@@ -97,25 +110,6 @@ class Scene extends Component{
     this.addFlowerMesh();
   }
 
-  leafGeometry(xOrigin, yOrigin, leafLength, width1, width2, leafFoldAngle){
-    let yCp1 = width1;
-    let yCp2 = width2;
-    // lies along x Axis
-    let xCp1 = 0;
-    let xCp2 = leafLength;
-
-    var shape1 = new THREE.Shape();
-    shape1.bezierCurveTo( xOrigin + xCp1, yOrigin + yCp1, xOrigin + xCp2, yOrigin+yCp2, leafLength, yOrigin );
-    // draw 2 halves of leaf by copying and rotating the geometry
-    var geometry1 = new THREE.ShapeGeometry( shape1 );
-    var shape2 = new THREE.Shape();
-    shape2.bezierCurveTo( xOrigin + xCp1, yOrigin - yCp1, xOrigin + xCp2, yOrigin-yCp2, leafLength, yOrigin );
-    var geometry2 = new THREE.ShapeGeometry( shape2);
-    geometry1.rotateX(leafFoldAngle);
-    geometry2.rotateX(-leafFoldAngle);
-    geometry2.merge(geometry1);
-    return geometry2;
-  }
   setupScene(){
     this.width = this.container.clientWidth;
     this.height = this.container.clientHeight;
@@ -138,38 +132,8 @@ class Scene extends Component{
     // draw flower
     this.addFlowerMesh();
 
-    // draw stamens/disk as cylinder
-    let centerGeometry = new THREE.CylinderGeometry(this.state.centerTopRadius, this.state.centerBottomRadius, this.state.centerHeight, this.state.centerSides);
-    centerGeometry.rotateX(0.5*Math.PI);
-    let centerMesh = new THREE.Mesh(centerGeometry, this.centerMaterial);
-    centerMesh.translateOnAxis(new THREE.Vector3(0,0,1), this.state.centerTranslateZ);
-    this.scene.add(centerMesh);
-
     this.addStemMesh();
-
-    //draw leaves
-    let leafRotAngle = 120 * (Math.PI/180);
-    let leafFoldAngle = 20 * (Math.PI/180);
-    let leafLength = 10;
-    let leafVertSpacing = 3;
-    let leafInner = 2;
-    let leafOuter = -1;
-    let leafPitch = 30*(Math.PI/180);
-    let leavesTopBound = -this.stemHeight*0.5;
-    let leavesBottomBound =  -this.stemHeight*0.9;
-    let translateBy = leavesBottomBound;
-    // absolutely no leaves above here
-    let flowersTopBound = 0;
-    for (let i = 0; translateBy < leavesTopBound && translateBy < flowersTopBound; i++){
-      translateBy  += leafVertSpacing;
-      let leafGeometry = this.leafGeometry(0,0,leafLength,leafInner, leafOuter, leafFoldAngle);
-      leafGeometry.rotateY(-leafPitch);
-      leafGeometry.rotateZ(i*leafRotAngle);
-      let leafMesh = new THREE.Mesh(leafGeometry, this.leafMaterial);
-      //cut off if above flower plane
-      leafMesh.translateOnAxis(new THREE.Vector3(0,0,1),translateBy);
-      this.scene.add(leafMesh);
-    }
+    this.addLeafMesh();
 
     this.renderer = renderer;
     this.scene = this.scene;
