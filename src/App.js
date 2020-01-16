@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Scene from './Scene';
 import Sliders from './Sliders';
 import "./App.css";
-import {hybridize} from './Hybridize';
+import {hybridize} from './js-plant-gen/Hybridize';
 class App extends Component {
   constructor(props){
     super(props);

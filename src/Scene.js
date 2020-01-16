@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 import PropTypes from 'prop-types';
-import * as DrawFlower from './DrawFlower';
+import * as DrawFlower from './js-plant-gen/DrawFlower';
 
 class Scene extends Component{
   static propTypes = {
