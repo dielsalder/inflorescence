@@ -34,15 +34,18 @@ function flowerMesh(flowerData){
         new THREE.MeshLambertMaterial({ color:flowerData.flowerColor }));
     return flowerMesh;
 }
-function stemMesh(stemRadius,stemHeight,stemColor){
-    const stemSubdivisions=3;
-    let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,stemSubdivisions);
-    stemGeometry.rotateX(0.5*Math.PI);
-    let stemMesh = new THREE.Mesh(stemGeometry,
-      new THREE.MeshBasicMaterial({
-        color:stemColor,
-      }));
-    return stemMesh;
+function stemMesh(flowerData){
+  const stemHeight=flowerData.stemHeight;
+  const stemColor=flowerData.leafStemColor;
+  const stemSubdivisions=3;
+  const stemRadius = 0.25;
+  let stemGeometry = new THREE.CylinderGeometry(stemRadius, stemRadius, stemHeight,stemSubdivisions);
+  stemGeometry.rotateX(0.5*Math.PI);
+  let stemMesh = new THREE.Mesh(stemGeometry,
+    new THREE.MeshBasicMaterial({
+      color:stemColor,
+    }));
+  return stemMesh;
 }
 
 export {flowerMesh, stemMesh};

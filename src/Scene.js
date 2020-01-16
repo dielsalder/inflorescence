@@ -19,6 +19,7 @@ class Scene extends Component{
     petalOuterXRelative: PropTypes.number,
     /** Y coordinate of petal outer control point relative to length - between -1 and 1 */
     petalOuterYRelative: PropTypes.number,
+    stemHeight:PropTypes.string,
     /** color of leaves and stems -- hex code */
     leafStemColor: PropTypes.string,
     /** color of flowers - hex code */
@@ -42,7 +43,6 @@ class Scene extends Component{
     this.destroyContext = this.destroyContext.bind(this);
     this.handleWindowResize = this.handleWindowResize.bind(this);
 
-    this.stemRadius = 0.25;
     this.stemHeight = 15;
     this.wireMaterial = new THREE.MeshBasicMaterial({
       color: 0xff0000,
@@ -81,7 +81,7 @@ class Scene extends Component{
   }
   addStemMesh(){
     // draw stem
-    this.stemMesh = DrawFlower.stemMesh(this.stemRadius, this.stemHeight, this.props.leafStemColor);
+    this.stemMesh = DrawFlower.stemMesh(this.props);
     // move stem so its top is level with flower base
     this.stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* this.stemHeight);
     this.scene.add(this.stemMesh);

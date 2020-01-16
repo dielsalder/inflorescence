@@ -16,6 +16,7 @@ class App extends Component {
       petalOuterYRelative:0.5,
       flowerColor:"#24afff",
       leafStemColor:"#69a339",
+      stemHeight:15
     }
     this.onChange = this.onChange.bind(this);
     this.saveFlowerTo=this.saveFlower.bind(this);
