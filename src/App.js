@@ -76,8 +76,10 @@ class App extends Component {
 
   /** cross stored p1 and p2 and display the result */
   crossFlowers(){
-    const child = hybridize(this.savedFlowers["p1"], this.savedFlowers["p2"]);
-    this.showFlower(child);
+    if (this.savedFlowers["p1"]!= null && this.savedFlowers["p2"]!=null){
+      const child = hybridize(this.savedFlowers["p1"], this.savedFlowers["p2"]);
+      this.showFlower(child);
+    }
   }
 
   render() {
