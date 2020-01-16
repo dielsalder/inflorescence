@@ -83,7 +83,6 @@ class Scene extends Component{
     // draw stem
     this.stemMesh = DrawFlower.stemMesh(this.props);
     // move stem so its top is level with flower base
-    this.stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* this.stemHeight);
     this.scene.add(this.stemMesh);
   }
 

@@ -45,7 +45,9 @@ function stemMesh(flowerData){
     new THREE.MeshBasicMaterial({
       color:stemColor,
     }));
-  return stemMesh;
+  // move to align top of stem with origin
+  stemMesh.translateOnAxis(new THREE.Vector3(0,0,-1),  0.5* stemHeight);
+return stemMesh;
 }
 
 export {flowerMesh, stemMesh};
