@@ -3,29 +3,13 @@ import Scene from './Scene';
 import Sliders from './Sliders';
 import "./App.css";
 import {hybridize} from './js-plant-gen/Hybridize';
+import * as examples from './js-plant-gen/ExampleFlowers';
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      numPetals:6,
-      petalLength:5,
-      petalPitch : 30*Math.PI/180,
-      petalInnerXRelative:0,
-      petalOuterXRelative:1,
-      petalInnerYRelative:0.1,
-      petalOuterYRelative:0.5,
-      flowerColor:"#24afff",
-      leafStemColor:"#69a339",
-      leafRotAngle:120 * (Math.PI/180),
-      leafLength:10,
-      leafSpacing:3,
-      stemHeight:15,
-      leafInner:0.2,
-      leafOuter:0,
-      leafPitch: 30*Math.PI/180,
-      leavesTopBound:0.5,
-      flowerUpdated:false,
-      leafUpdated:false
+      ...examples.yellowStar,
+      ...{flowerUpdated:false, leafUpdated:false}
     }
     this.onChange = this.onChange.bind(this);
     this.onLeafChange = this.onLeafChange.bind(this);
